@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %} Error - 403 {% endblock %}
+
+{% block content %}
+<div class="container" style="background-color: aliceblue;">
+    <div style="padding: 10px;">
+        <h2>OOPs! Seems like You are not allowed here :)</h2> <br>
+    <p>please go back to the home page <a class="btn" href="{% url 'index' %}">Home page</a></p>
+    </div>
+
+</div>
+{% endblock content %}

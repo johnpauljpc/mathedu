@@ -1,0 +1,45 @@
+{% extends 'sec/sec_base.html' %}
+{% load math_filters %}
+{% block title %} Quadratic {% endblock %}
+
+{% block content %}
+
+<div>
+    <h2 class="mt-5 mb-4 heading">
+        Quadratic Equations <i id="quadratic"><span style="color: white;">a</span>x<sup>2</sup> &plusmn; <span style="color: white;">b</span>x &plusmn; <span style="color: white;">c</span> = 0</i>
+    </h2>
+    <h4 style="margin-top: -1.3rem; margin-bottom: 0.8rem; color: gainsboro;"><i>a, b, and c are <b>constants</b></i></h4>
+</div>
+
+
+<form action="" method="post">
+    {% csrf_token %}
+    <div class="form-group d-flex">
+        <label for="a" class="col-1">a: </label>
+        <input type="number" step="0.001" class="form-control" id="a" name="a" value="{{data.a}}" required>
+    </div>
+
+    <div class="form-group d-flex">
+        <label for="b" class="col-1">b: </label>
+        <input type="number"  step="0.001" class="form-control" id="b" name="b" value="{{data.b}}" required>
+    </div>
+
+    <div class="form-group d-flex">
+        <label for="c" class="col-1">c: </label>
+        <input type="number" step="0.001" class="form-control" id="c" name="c" value="{{data.c}}" required>
+    </div>
+    
+    <input type="submit" value="Get roots" class="btn btn-success">
+    <a href="{% url 'quadratic' %}">
+        <input type="button" value="Refresh" class="btn btn-danger">
+        </a>
+
+        <a href="{% url 'index' %}">
+            <input type="button" value="Back" class="btn btn-secondary">
+            </a>
+</form>
+
+{% if root1 is not None %}
+<p class="results">The roots for <i>{{data.a}}x<sup>2</sup> {{data.b|magnitude}}x {{data.c|magnitude}} = 0</i> are &nbsp; <b>{{root1}}</b> and <b>{{root2}}</b></p>
+{% endif %}
+{% endblock content%}

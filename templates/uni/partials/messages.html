@@ -1,0 +1,9 @@
+{% if messages %}
+    <div class="messages">
+     
+        {% for message in messages %}
+        <p class="errorlist">{{message|safe}}</p>
+        {% endfor %}
+    </div>
+
+    {% endif %}

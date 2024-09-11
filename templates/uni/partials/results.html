@@ -1,0 +1,107 @@
+{% load static %}
+
+    {% if result %}
+    <h4>Computed using 
+        <b style="color: #FC6D6D;">{{method}}</b> </h4>
+    {% if error %}
+    <p><b>Approximate root:</b> {{ result|safe}}</p>
+    <div class="err-img">
+        <h4 style="color: rgb(133, 103, 103);">please try other methods</h4>
+        <!-- <img src="{% static 'images\piffle-error.gif' %}" alt="error"> -->
+        
+    </div>
+    {% else %}
+    <p><b>Approximate root:</b>: {{result}}</p>
+    {% if method == "Successive Approximation" %}
+    
+    <!-- Nothing displays -->
+    {% else %}
+    <h3 style="margin-top: 1rem;">Tabulation of result</h3>
+    <div class="other-results-container" >
+        
+        <table id="other-results">
+            {% if method == "Bisection"%}
+            <thead>
+                <tr>
+                    <td  style="text-align: left;"><b>n</b></td>
+                    <td><b>a</b></td>
+                    <td><b>b</b></td>
+                    <td><b>root</b></td>
+                    <td>b - c</td>
+                    <td>f(c)</td>
+                    
+                </tr>
+                
+            </thead>
+    
+            <tbody>
+                {% for result in table_data %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{result.a|floatformat:4}}</td>
+                    <td>{{result.b|floatformat:4}}</td>
+                    <td class="root">{{result.c|floatformat:4}}</td>
+                    <td>{{result.b_c|floatformat:4}}</td>
+                    <td>{{result.func|floatformat:4}}</td>
+                </tr>
+    
+                {% endfor %}
+            </tbody>
+            {% endif %}
+
+            <!-- For Newton raphson -->
+            {% if method == "Newton Raphson"%}
+            <thead>
+                <tr>
+                    <td  style="text-align: left;"><b>i</b></td>
+                    <td><b>x<sub>i</sub></b></td>
+                    <td><b>f(x<sub>i</sub>)</b></td>
+                    <td><b>f '(x<sub>i</sub>)</b></td>
+                    <td><b>x<sub>i+1</sub></b></td>
+                    <td>&xi;</td>
+                    
+                </tr>
+                
+            </thead>
+    
+            <tbody>
+                {% for result in table_data %}
+                <tr>
+                    <td>{{forloop.counter0}}</td>
+                    <td>{{result.x_i|floatformat:4}}</td>
+                    <td>{{result.fx|floatformat:4}}</td>
+                    <td>{{result.fx1|floatformat:4}}</td>
+                    <td class="root">{{result.res|floatformat:4}}</td>
+                    <td>{{result.e|floatformat:4}}</td>
+                </tr>
+    
+                {% endfor %}
+            </tbody>
+            {% endif %}
+           
+
+           
+         
+    
+            
+    
+            
+        </table>
+    </div>
+    {% endif %} 
+
+    {% endif %}
+    {% else %}
+    <h1 style="text-align: center;" class="result-heading">Result(s) Here!</h1>
+        <!-- To display error image -->
+        {% for msg in messages %}
+            {% if 'error' in msg.tags %}
+                <div class="err-img">
+                <img src="{% static 'images\piffle-error.gif' %}" alt="error">
+                </div>
+            {% endif %}
+
+        {% endfor %}
+
+    
+    {% endif %}

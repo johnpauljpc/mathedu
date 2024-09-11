@@ -1,0 +1,21 @@
+{% extends 'sec/sec_base.html' %}
+{% load static %}
+{% block title %} Home {% endblock %}
+
+{% block content %}
+
+
+<div class="index-wrapper">
+    <div class="intro" >Solve <span class="auto-type"></span></div>
+
+<div class="index-btns" >
+
+    <a href="{% url 'simple_interest' %}"><button class="btn">Simple Interest</button></a>
+    <a href="{% url 'compound_interest' %}" class=""><button class="btn">Compound Interest</button></a>
+    <a href="{% url 'quadratic' %}"><button class="btn">Quadratic Equations</button></a>
+    <a href="{% url 'dda' %}" class=""><button class="btn">Differential Algorithm</button></a>
+    <a href="{% url 'trans_eqn' %}" class=""><button class="btn">Transcendental Equations</button></a>
+
+</div>
+</div>
+{% endblock content%}
