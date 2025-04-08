@@ -3,9 +3,17 @@
     <hr>
     <div class="container">
         Made with <i class="ri-heart-3-fill" style="color: limegreen;"></i>
-        by Johnpaul &copy; 2024 - <span style=" background-color: green; font-weight: bold;">3MTT</span> showcase</a>
+        by Johnpaul &copy; <strong id="date"></strong></a>
         </p>
         <!-- <span>© 2024 MathEdu. All rights reserved.</span> -->
+
+        <script>
+           const date = document.getElementById("date")
+           let now = new Date()
+           let CurrentYear = now.getFullYear()
+           date.innerText = CurrentYear
+
+        </script>
     
 
         <!-- <span>© 2024 LmB Math Hub. All rights reserved.</span> -->
