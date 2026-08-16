@@ -1,21 +1,58 @@
-{% extends 'sec/sec_base.html' %}
-{% load static %}
-{% block title %} Home {% endblock %}
+{% extends 'base.html' %}
+{% block title %}MathEdu — Solve math problems with ease{% endblock %}
 
 {% block content %}
+<section class="hero">
+    <h1 class="hero-title">Solve <span class="auto-type"></span></h1>
+    <p class="hero-sub">Step-by-step solutions for secondary and university level mathematics &mdash; free, fast and reliable.</p>
+</section>
 
+<section class="tool-grid" aria-label="Available math tools">
+    <a class="card tool-card" href="{% url 'simple_interest' %}">
+        <span class="tool-icon" aria-hidden="true">&#36;</span>
+        <h3>Simple Interest</h3>
+        <p>Calculate simple interest with a full step-by-step breakdown.</p>
+        <span class="tool-cta">Solve now &rarr;</span>
+    </a>
 
-<div class="index-wrapper">
-    <div class="intro" >Solve <span class="auto-type"></span></div>
+    <a class="card tool-card" href="{% url 'compound_interest' %}">
+        <span class="tool-icon" aria-hidden="true">&#36;&#36;</span>
+        <h3>Compound Interest</h3>
+        <p>Find compound interest and final amount with a full working.</p>
+        <span class="tool-cta">Solve now &rarr;</span>
+    </a>
 
-<div class="index-btns" >
+    <a class="card tool-card" href="{% url 'quadratic' %}">
+        <span class="tool-icon" aria-hidden="true">x&#178;</span>
+        <h3>Quadratic Equations</h3>
+        <p>Solve <i>ax&sup2; + bx + c = 0</i> for real roots instantly.</p>
+        <span class="tool-cta">Solve now &rarr;</span>
+    </a>
 
-    <a href="{% url 'simple_interest' %}"><button class="btn">Simple Interest</button></a>
-    <a href="{% url 'compound_interest' %}" class=""><button class="btn">Compound Interest</button></a>
-    <a href="{% url 'quadratic' %}"><button class="btn">Quadratic Equations</button></a>
-    <a href="{% url 'dda' %}" class=""><button class="btn">Differential Algorithm</button></a>
-    <a href="{% url 'trans_eqn' %}" class=""><button class="btn">Transcendental Equations</button></a>
+    <a class="card tool-card" href="{% url 'dda' %}">
+        <span class="tool-icon" aria-hidden="true">&#8966;</span>
+        <h3>DDA Line Generation</h3>
+        <p>Rasterize a line with the Digital Differential Algorithm and view its graph.</p>
+        <span class="tool-cta">Solve now &rarr;</span>
+    </a>
 
-</div>
-</div>
-{% endblock content%}
+    <a class="card tool-card" href="{% url 'trans_eqn' %}">
+        <span class="tool-icon" aria-hidden="true">&radic;</span>
+        <h3>Transcendental Equations</h3>
+        <p>Find roots with Bisection, Newton&ndash;Raphson or Successive Approximation.</p>
+        <span class="tool-cta">Solve now &rarr;</span>
+    </a>
+</section>
+{% endblock content %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.10/typed.js" integrity="sha512-tQQXRDB2wEmuJGtFrmmoFYzNTq8StA1XJrfO0OQbbTxd9G0CwaTDL6/C1y805IlvBVrMwOqob1kf6r/2U5XXVg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    new Typed(".auto-type", {
+        strings: ["Simple Interest.", "Compound Interest.", "Quadratic Equations.", "DDA Lines.", "Transcendental Equations."],
+        typeSpeed: 70,
+        backSpeed: 40,
+        loop: true
+    });
+</script>
+{% endblock extra_js %}

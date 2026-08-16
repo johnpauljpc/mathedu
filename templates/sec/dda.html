@@ -1,131 +1,87 @@
-{% extends 'sec/sec_base.html' %} {% block title %} DDA Line generation {%endblock %} 
+{% extends 'base.html' %}
+
+{% block title %}DDA Line Generation — MathEdu{% endblock %}
 
 {% block content %}
+<section>
+    <h1 class="page-title">Digital Differential Algorithm (DDA)</h1>
+    <p class="page-subtitle">Rasterize a straight line between two points and inspect each plotted step.</p>
 
-<h2>Digital Differential Algorithm</h2>
-  <form id="" method="post">
-    {% csrf_token %}
-    <div class="group d-flex gap-3">
-      <div class="form-group d-flex col-md-6">
-        <label for="x0" class="col-2">x0:</label>
-        <input
-          type="number"
-          min="0"
-          step="0.0000000001"
-          class="form-control"
-          id="x0"
-          value="{{data.x0}}"
-          name="x0"
-          placeholder="enter x0 coordinate"
-          required
-        />
-      </div>
-      <div class="form-group d-flex col-md-6">
-        <label for="y0" class="col-2">y0:</label>
-        <input
-          type="number"
-          min="0"
-          step="0.00000001"
-          class="form-control"
-          id="y0"
-          placeholder="enter y0 coordinate"
-          value="{{data.y0}}"
-          name="y0"
-          required
-        />
-      </div>
-    </div>
+    <div class="row g-4">
+        <div class="col-lg-5">
+            <div class="panel">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="field-row">
+                        <div class="mb-3">
+                            <label class="form-label" for="x0">x0</label>
+                            <input type="number" step="any" class="form-control" id="x0" name="x0" value="{{data.x0}}" placeholder="0" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="y0">y0</label>
+                            <input type="number" step="any" class="form-control" id="y0" name="y0" value="{{data.y0}}" placeholder="0" required>
+                        </div>
+                    </div>
+                    <div class="field-row">
+                        <div class="mb-3">
+                            <label class="form-label" for="x1">x1</label>
+                            <input type="number" step="any" class="form-control" id="x1" name="x1" value="{{data.x1}}" placeholder="4" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="y1">y1</label>
+                            <input type="number" step="any" class="form-control" id="y1" name="y1" value="{{data.y1}}" placeholder="6" required>
+                        </div>
+                    </div>
 
-    <div class="group d-flex gap-3">
-      <div class="form-group d-flex col-md-6">
-        <label for="x1" class="col-2">x1:</label>
-        <input
-          type="number"
-          min="0"
-          step="0.0000000001"
-          class="form-control"
-          id="x1"
-          value="{{data.x1}}"
-          name="x1"
-          placeholder="enter x1 coordinate"
-          required
-        />
-      </div>
-      <div class="form-group d-flex col-md-6">
-        <label for="y1" class="col-2">y1:</label>
-        <input
-          type="number"
-          min="0"
-          step="0.00000001"
-          class="form-control"
-          id="y1"
-          placeholder="enter y1 coordinate"
-          value="{{data.y1}}"
-          name="y1"
-          required
-        />
-      </div>
-    </div>
-
-    <button type="submit" class="btn btn-success">Calculate</button>
-    <a href="{% url 'dda' %}">
-      <input type="button" value="Refresh" class="btn btn-danger" />
-    </a>
-
-    <a href="{% url 'index' %}">
-      <input type="button" value="Back" class="btn btn-secondary" />
-    </a>
-  </form>
-</div>
-
-{% if data %}
-<h2 class="mt-5 mb-2">Result</h2>
-<div class="d-md-flex gap-3">
-    
-    <div class="inputs-table col-md-4">
-       <h4 class="text-center">Table</h4>
-      <table
-        class="table table-striped table-hover table-bordered table-responsive"
-      >
-      
-        <thead class="table-dark">
-          <tr class="p-2">
-            <th scope="col">s/n</th>
-            <th scope="col">plot(x,y)</th>
-            <th scope="col">x</th>
-            <th scope="col">y</th>
-          </tr>
-        </thead>
-  
-        <tbody>
-          {% for c in cord %}
-          <tr>
-            <th scope="row">{{forloop.counter}}</th>
-            <td>({{c.x}}, {{c.y}})</td>
-            <td>{{c.x_inc}}</td>
-            <td>{{c.y_inc}}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  
-    {% if image_base64 %}
-    
-    <div class="graph col-md-8">
-        <h4 class="text-center">Graph</h4>
-        <div class="center-content">
-          <img
-            src="data:image/png;base64,{{ image_base64 }}"
-            alt="Plot"
-            style="width: 98%;"
-          />
+                    <div class="btn-group-actions">
+                        <button type="submit" class="btn btn-primary">Calculate</button>
+                        <a class="btn btn-secondary" href="{% url 'dda' %}">Refresh</a>
+                        <a class="btn btn-secondary" href="{% url 'index' %}">Back</a>
+                    </div>
+                </form>
+            </div>
         </div>
-      </div>
-    {% endif %}
 
+        <div class="col-lg-7">
+            {% if data %}
+            <div class="panel">
+                <h3>Result</h3>
+                <div class="table-wrap">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">plot (x, y)</th>
+                                <th scope="col">x</th>
+                                <th scope="col">y</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for c in cord %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>({{ c.x }}, {{ c.y }})</td>
+                                <td>{{ c.x_inc }}</td>
+                                <td>{{ c.y_inc }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                {% if image_base64 %}
+                <figure class="graph-figure">
+                    <img src="data:image/png;base64,{{ image_base64 }}" alt="Graph of the DDA-generated line">
+                </figure>
+                {% endif %}
+            </div>
+            {% else %}
+            <div class="panel">
+                <h3>Result</h3>
+                <p class="page-subtitle mb-0">Enter the two endpoints and press <strong>Calculate</strong> to generate the line and its step table here.</p>
+            </div>
+            {% endif %}
+        </div>
     </div>
-
-{% endif %}
-
+</section>
 {% endblock content %}

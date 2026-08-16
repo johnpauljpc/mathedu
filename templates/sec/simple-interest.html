@@ -1,123 +1,77 @@
-{% extends 'sec/sec_base.html' %}
+{% extends 'base.html' %}
 
-{% block title %} Simple Interest {% endblock %}
+{% block title %}Simple Interest Calculator — MathEdu{% endblock %}
 
 {% block content %}
+<section>
+    <h1 class="page-title">Simple Interest</h1>
+    <p class="page-subtitle">Calculate simple interest using SI = (P &times; R &times; T) / 100.</p>
 
+    <div class="row g-4">
+        <div class="col-lg-5">
+            <div class="panel">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label" for="principal">Principal Amount (P)</label>
+                        <input type="number" min="0" step="any" class="form-control" id="principal" name="principal" value="{{data.principal}}" placeholder="e.g. 1000" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="rate">Interest Rate (R) in %</label>
+                        <input type="number" min="0" step="any" class="form-control" id="rate" name="rate" value="{{data.rate}}" placeholder="e.g. 5" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="time">Time (T) in years</label>
+                        <input type="number" step="any" min="0" class="form-control" id="time" name="time" value="{{data.time}}" placeholder="e.g. 2" required>
+                    </div>
 
-    <main class="container">
-        {% include 'sec/partials/messages.html' %}
-        <section>
-            <h1 class="mt-5 mb-4  heading">Simple Interest</h1>
-            <!-- Input Form -->
-            <form id="interestForm" method="post">
-                {% csrf_token %}
-                <div class="form-group d-flex">
-                    <label for="principal" class="col-3">Principal Amount:</label>
-                    <input type="number" min="0" step="0.0000000001" class="form-control" id="principal" value="{{data.principal}}" name="principal" placeholder="Enter principal amount" required>
-                </div>
-                <div class="form-group d-flex">
-                    <label for="rate" class="col-3">Interest Rate (%):</label>
-                    <input type="number" min="0" step="0.00000001" class="form-control" id="rate" placeholder="Enter interest rate" value="{{data.rate}}" name="rate" required>
-                </div>
-                <div class="form-group d-flex">
-                    <label for="time" class="col-3">Time (years):</label>
-                    <input type="number" step="0.0000001" min="0" class="form-control" id="time" placeholder="Enter time" value="{{data.time}}" name="time" required>
-                </div>
-                <div class="form-group">
-                    <label for="si" class="opt" hidden>Simple Interest:</label>
                     <input type="radio" value="simple_interest" name="choice" id="si" checked hidden>
-
-                    <label for="ci" class="opt" hidden >Compound Interest:</label>
                     <input type="radio" value="compound_interest" name="choice" id="ci" hidden>
-                </div>
-                <button type="submit" class="btn btn-success">Calculate</button>
-                <a href="{% url 'simple_interest' %}">
-                    <input type="button" value="Refresh" class="btn btn-danger">
-                    </a>
 
-                    <a href="{% url 'index' %}">
-                        <input type="button" value="Back" class="btn btn-secondary">
-                        </a>
-            </form>
-            
-            <!-- Result Display -->
-            {% if s_interest %}
-        
-            <div class="my-4 results  ">Simple Interest is <b>{{s_interest}}</b></div>
-            <!-- break down -->
-            <div class="breakdown">
-                <h3 style="text-decoration:underline;">Break down</h3>
-             
-                Principal(P) = {{data.principal}}<br />
-                Rate(R) = {{data.rate}}<br />
-                Time(T) = {{data.time}}<br />
-                <p>
-                    
-                    <div class="formula-wrapper">
-                        Simple Interest (SI) = <div class="fraction">
-                            <span class="nominator">P*R*T</span>
-                            <div class="denominator">100</div>
-                        </div>
+                    <div class="btn-group-actions">
+                        <button type="submit" class="btn btn-primary">Calculate</button>
+                        <a class="btn btn-secondary" href="{% url 'simple_interest' %}">Refresh</a>
+                        <a class="btn btn-secondary" href="{% url 'index' %}">Back</a>
                     </div>
-                    <br>
-
-                    <div class="formula-wrapper">
-                        SI = <div class="fraction">
-                            <span class="nominator">{{data.principal}} * {{data.rate}} * {{data.time}}</span>
-                            <div class="denominator">100</div>
-                        </div>
-                    </div>
-                    <br>
-
-                    <div class="formula-wrapper">
-                        SI = <div class="fraction">
-                            <span class="nominator"> {{i_tot}}</span>
-                            <div class="denominator">100</div>
-                        </div>
-                        = {{s_interest}}
-                    </div>
-                    <br>
-
-                    
-                    
-                   
-                    therefore; The Simple Interest is <b>{{s_interest}}</b>
-                </p>
+                </form>
             </div>
+        </div>
 
-            {% elif comp_interest %}
-            <div id="result" class="my-4 results">Compound Interest is <b>{{comp_interest}}</b></div>
-            <!-- breakdown -->
-
-            <div class="breakdown">
-                <h3 style="text-decoration:underline;">Break down</h3>
-             
-                Principal(P) = {{data.principal}}<br />
-                Rate(R) = {{data.rate}}<br />
-                Time(n) = {{data.time}}<br />
-                <p> <br>
-                    Compound Interest (CI) = Amount (A) - Principal (P) <br>
-                    Amount (A) = P * (1 + ( <sup>R</sup>/<sub>100</sub> )) <sup> n </sup> <br>
-                    So, A = {{data.principal}}(1 + ( <sup>{{data.rate}}</sup>/<sub>100</sub> ))<sup>{{data.time}}</sup>
-                    <br>
-                    A = {{data.principal}} * (1 + <sup>{{data.rate}}</sup>/<sub>100</sub> )<sup>{{data.time}}</sup> <br>
-                    &nbsp; &nbsp; = {{data.principal}} * (1 + {{compound_rate}})<sup>{{data.time}}</sup> <br>
-                    &nbsp; &nbsp; = {{data.principal}} * ({{compound_rate_add}})<sup>{{data.time}}</sup> <br>
-                    &nbsp; &nbsp; = {{data.principal}} * {{compound_rate_exp}} <br>
-                    therefore; A = {{amount}} <br> <br>
-                    So, CI = Amount (A) - Principal (P) <br>
-                    &nbsp; &nbsp; = {{amount}} - {{data.principal}} <br>
-                    &nbsp; &nbsp; = {{comp_interest}}
-
-                    <!-- SI = {{i_tot}} / 100 = {{s_interest}} <br> -->
-                    <br>
-                    therefore; The Compound Interest is <b>{{comp_interest}}</b>
-                </p>
+        <div class="col-lg-7">
+            {% if s_interest %}
+            <div class="panel">
+                <h3>Result</h3>
+                <p>Simple Interest is <span class="result-value">{{ s_interest }}</span></p>
+                <h4 class="mt-4 mb-2" style="text-decoration: underline;">Breakdown</h4>
+                <div class="breakdown">
+                    <p>
+                        Principal (P) = {{ data.principal }}<br>
+                        Rate (R) = {{ data.rate }}%<br>
+                        Time (T) = {{ data.time }} years<br>
+                    </p>
+                    <p>
+                        <div class="formula-wrapper">
+                            Simple Interest (SI) = <span class="fraction"><span class="nominator">P &times; R &times; T</span><span class="denominator">100</span></span>
+                        </div>
+                        <br>
+                        <div class="formula-wrapper">
+                            SI = <span class="fraction"><span class="nominator">{{ data.principal }} &times; {{ data.rate }} &times; {{ data.time }}</span><span class="denominator">100</span></span>
+                        </div>
+                        <br>
+                        <div class="formula-wrapper">
+                            SI = <span class="fraction"><span class="nominator">{{ i_tot }}</span><span class="denominator">100</span></span> = <b>{{ s_interest }}</b>
+                        </div>
+                    </p>
+                    <p>Therefore, the Simple Interest is <b>{{ s_interest }}</b>.</p>
+                </div>
+            </div>
+            {% else %}
+            <div class="panel">
+                <h3>Result</h3>
+                <p class="page-subtitle mb-0">Fill in the values and press <strong>Calculate</strong> to see the step-by-step solution here.</p>
             </div>
             {% endif %}
-        </section>
-    </main>
-
-
-{% endblock %}
+        </div>
+    </div>
+</section>
+{% endblock content %}

@@ -1,85 +1,47 @@
 {% load static %}
-    <div class="center-content">
-    <form action="" method="post">
+    <form action="" method="post" novalidate>
         {% csrf_token %}
 
-    <div class="form-control-flex">
-        <div class="form-control">
-            <label for="interval1">Interval1</label>
-        <input type="number" step="0.001" min="0" class="{% if interval1_err %} error-outline {% endif %}"  name="interval1" id="interval1" required placeholder="0" value="{{data.interval1}}">
+        <div class="field-row">
+            <div class="mb-3">
+                <label class="form-label" for="interval1">Interval a</label>
+                <input type="number" step="0.001" class="form-control {% if interval1_err %} error-outline {% endif %}" name="interval1" id="interval1" required placeholder="0" value="{{data.interval1}}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="interval2">Interval b</label>
+                <input type="number" step="0.001" class="form-control {% if interval2_err %} error-outline {% endif %}" name="interval2" id="interval2" required placeholder="3.2" value="{{data.interval2}}">
+            </div>
         </div>
 
-    <div class="form-control">
-        <label for="interval2">Interval2</label>
-    <input type="number" step="0.001" min="0" class="{% if interval2_err %} error-outline {% endif %}" name="interval2" id="interval2" required placeholder="3.2" value="{{data.interval2}}">
-    </div>
-    </div>
-
-    <div class="form-control-flex">
-        <div class="form-control">
-            <label for="equation">Equation</label>
-            <input type="text" name="equation" id="equation" 
-            class="{% if eqn_err %} error-outline {% endif %}"
-            required placeholder="x**3 - 4*x - 8.95" 
-            value="{% if data.equation %}{{data.equation}}{% else %}x^3 - 4x - 8.95{% endif %}">
-         </div>
-
-       <div class="form-control ">
-            <label for="tolerance">Tolerance</label>
-            <input type="number" step="0.0000000001" min="0.000001"  class="{% if tol_error %} error-outline {% endif %}"  name="tolerance" id="tolerance"  required placeholder="0.000012" value="{{data.tolerance}}">
-         </div>
-    </div>
-
-
-       
-<fieldset class="radios">
-    <legend><b>Select root finding method</b></legend>
-<div>
-<input type="radio" id="bisection" name="root_method" value="bisection" required>
-<label for="bisection">Bisection</label>
-</div>
-
-<div>
-<input type="radio" id="successive_approximation" name="root_method" value="successive_approximation" required>
-<label for="successive_approximation">Successive Approximation</label>
-</div>
-
-<div>
-<input type="radio" id="newton_raphson" name="root_method" value="newton_raphson" required>
-<label for="newton_raphson">Newton Raphson</label>
-</div>
-
-</fieldset>
-
-
-        <!--  displays IF on mobile -->
-        <div class="results-mobile">
-            {% include "uni/partials/results.html" %}
+        <div class="mb-3">
+            <label class="form-label" for="equation">Equation</label>
+            <input type="text" name="equation" id="equation" class="form-control {% if eqn_err %} error-outline {% endif %}" required placeholder="x^3 - 4x - 8.95"
+                   value="{% if data.equation %}{{data.equation}}{% else %}x^3 - 4x - 8.95{% endif %}">
         </div>
-        <!-- Error message -->
-<div class="msg">{% include "uni/partials/messages.html" %}</div>
-<!-- ERR -->
-<div class="msg-mobile">{% include "uni/partials/messages.html" %}</div>
 
-    <div class="btns">
-        <div class="form-control">
-            <!-- <label style="visibility: hidden;">Hidden</label> -->
-            <a  id="reset" href="{% url 'trans_eqn' %}"> <button type="button" class="btn" id="reset">Reset</button></a>
-        </div> &nbsp;  &nbsp; &nbsp;
-
-        <div class=" form-control">
-            <!-- <label style="visibility: hidden;">Hidden</label> -->
-            <button class="btn" >Compute</button>
+        <div class="mb-3">
+            <label class="form-label" for="tolerance">Tolerance</label>
+            <input type="number" step="0.0000000001" min="0.000001" class="form-control {% if tol_error %} error-outline {% endif %}" name="tolerance" id="tolerance" required placeholder="0.000012" value="{{data.tolerance}}">
         </div>
-        
-    </div>
 
+        <fieldset class="radios">
+            <legend>Select root finding method</legend>
+            <div class="radio-option">
+                <input type="radio" id="bisection" name="root_method" value="bisection" required>
+                <label for="bisection">Bisection</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="successive_approximation" name="root_method" value="successive_approximation" required>
+                <label for="successive_approximation">Successive Approximation</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="newton_raphson" name="root_method" value="newton_raphson" required>
+                <label for="newton_raphson">Newton Raphson</label>
+            </div>
+        </fieldset>
+
+        <div class="btn-group-actions">
+            <a class="btn btn-outline" href="{% url 'trans_eqn' %}">Reset</a>
+            <button type="submit" class="btn btn-primary">Compute</button>
+        </div>
     </form>
-
-    {% if not result %}
-    <p class="about">Solve Algebraic and Transcendental Equations (ATE) with ease...</p>
-    {% endif %}
-    
-
-
-</div>

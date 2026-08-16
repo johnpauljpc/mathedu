@@ -14,7 +14,7 @@ SECRET_KEY = os.environ.get(
 )
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DJANGO_DEBUG", "false").lower() in ("1", "true", "yes")
+DEBUG = 1#os.environ.get("DJANGO_DEBUG", "false").lower() in ("1", "true", "yes")
 
 # Comma-separated list of allowed hosts, e.g. DJANGO_ALLOWED_HOSTS="mathedu.pythonanywhere.com"
 ALLOWED_HOSTS = os.environ.get(

@@ -1,18 +1,18 @@
-{% extends 'uni/base.html' %}
-{% block title %} Transcendental Equations Math Hub {% endblock %}
+{% extends 'base.html' %}
+{% block title %}Transcendental Equations — MathEdu{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="inputs">
-        {% include "uni/partials/input-section.html" %}
-    </div>
-   
-    
-    <div class="results">
-        <div class="center-content">
-        {% include "uni/partials/results.html" %}
+<section>
+    <h1 class="page-title">Algebraic &amp; Transcendental Equations</h1>
+    <p class="page-subtitle">Find roots of equations like x&sup3; &minus; 4x &minus; 8.95 = 0 using Bisection, Newton&ndash;Raphson or Successive Approximation.</p>
+
+    <div class="calculator">
+        <div class="panel">
+            {% include "uni/partials/input-section.html" %}
+        </div>
+        <div class="panel">
+            {% include "uni/partials/results.html" %}
         </div>
     </div>
-
-</div>
+</section>
 {% endblock content %}

@@ -1,66 +1,65 @@
-{% load static %}
+{% if result %}
+    <h3 class="mb-3">Result</h3>
+    <p class="mb-1">Computed using <span class="root">{{ method }}</span></p>
+    <p><b>Approximate root:</b> <span class="result-value">{{ result }}</span></p>
 
-    {% if result %}
-    <h4>Computed using
-        <b style="color: #FC6D6D;">{{method}}</b> </h4>
-    <p><b>Approximate root:</b>: {{result}}</p>
     {% if method != "Successive Approximation" %}
-    <h3 style="margin-top: 1rem;">Tabulation of result</h3>
-    <div class="other-results-container" >
-        <table id="other-results">
-            {% if method == "Bisection"%}
-            <thead>
-                <tr>
-                    <td  style="text-align: left;"><b>n</b></td>
-                    <td><b>a</b></td>
-                    <td><b>b</b></td>
-                    <td><b>root</b></td>
-                    <td>b - c</td>
-                    <td>f(c)</td>
-                </tr>
-            </thead>
-            <tbody>
-                {% for result in table_data %}
-                <tr>
-                    <td>{{forloop.counter}}</td>
-                    <td>{{result.a|floatformat:4}}</td>
-                    <td>{{result.b|floatformat:4}}</td>
-                    <td class="root">{{result.c|floatformat:4}}</td>
-                    <td>{{result.b_c|floatformat:4}}</td>
-                    <td>{{result.func|floatformat:4}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-            {% endif %}
+        <h4 class="mt-4 mb-2">Tabulation of result</h4>
+        <div class="table-wrap">
+            <table class="table table-striped table-hover table-bordered">
+                {% if method == "Bisection" %}
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">n</th>
+                        <th scope="col">a</th>
+                        <th scope="col">b</th>
+                        <th scope="col">root (c)</th>
+                        <th scope="col">b &minus; c</th>
+                        <th scope="col">f(c)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in table_data %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ item.a|floatformat:4 }}</td>
+                        <td>{{ item.b|floatformat:4 }}</td>
+                        <td class="root">{{ item.c|floatformat:4 }}</td>
+                        <td>{{ item.b_c|floatformat:4 }}</td>
+                        <td>{{ item.func|floatformat:4 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                {% endif %}
 
-            {% if method == "Newton Raphson"%}
-            <thead>
-                <tr>
-                    <td  style="text-align: left;"><b>i</b></td>
-                    <td><b>x<sub>i</sub></b></td>
-                    <td><b>f(x<sub>i</sub>)</b></td>
-                    <td><b>f '(x<sub>i</sub>)</b></td>
-                    <td><b>x<sub>i+1</sub></b></td>
-                    <td>&xi;</td>
-                </tr>
-            </thead>
-            <tbody>
-                {% for result in table_data %}
-                <tr>
-                    <td>{{forloop.counter0}}</td>
-                    <td>{{result.x_i|floatformat:4}}</td>
-                    <td>{{result.fx|floatformat:4}}</td>
-                    <td>{{result.fx1|floatformat:4}}</td>
-                    <td class="root">{{result.res|floatformat:4}}</td>
-                    <td>{{result.e|floatformat:4}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-            {% endif %}
-        </table>
-    </div>
+                {% if method == "Newton Raphson" %}
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">i</th>
+                        <th scope="col">x<sub>i</sub></th>
+                        <th scope="col">f(x<sub>i</sub>)</th>
+                        <th scope="col">f&prime;(x<sub>i</sub>)</th>
+                        <th scope="col">x<sub>i+1</sub></th>
+                        <th scope="col">&xi;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in table_data %}
+                    <tr>
+                        <td>{{ forloop.counter0 }}</td>
+                        <td>{{ item.x_i|floatformat:4 }}</td>
+                        <td>{{ item.fx|floatformat:4 }}</td>
+                        <td>{{ item.fx1|floatformat:4 }}</td>
+                        <td class="root">{{ item.res|floatformat:4 }}</td>
+                        <td>{{ item.e|floatformat:4 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                {% endif %}
+            </table>
+        </div>
     {% endif %}
-
-    {% else %}
-    <h1 style="text-align: center;" class="result-heading">Result(s) Here!</h1>
-    {% endif %}
+{% else %}
+    <h3>Result</h3>
+    <p class="page-subtitle mb-0">Enter an equation and a method to see the approximate root and the full iteration table here.</p>
+{% endif %}
