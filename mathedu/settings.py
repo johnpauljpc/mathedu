@@ -1,25 +1,33 @@
 from pathlib import Path
 import os
 
+from decouple import Config, Csv, RepositoryEmpty, RepositoryEnv
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Read configuration from a .env file next to the project when present,
+# otherwise fall back to real environment variables (e.g. set in the
+# PythonAnywhere WSGI file). The .env file is git-ignored.
+_env_file = BASE_DIR / ".env"
+config = Config(RepositoryEnv(_env_file) if _env_file.is_file() else RepositoryEmpty())
+
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# Set DJANGO_SECRET_KEY in your environment. The fallback below is for
-# local development only and must never be used in production.
-SECRET_KEY = os.environ.get(
-    "DJANGO_SECRET_KEY",
-    "django-insecure-oDg8j4Me_XqEBo2hqKZLyh5nuFK_zYAvC8Mtkc5tEh6ChozlwQLzJbHYXdAJ_1rT",
-)
+# Set DJANGO_SECRET_KEY in your .env (or environment). The fallback below is
+# for local development only and must never be used in production.
+SECRET_KEY = config("DJANGO_SECRET_KEY")
 
+print("SECRET_KEY: ", SECRET_KEY)
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 1#os.environ.get("DJANGO_DEBUG", "false").lower() in ("1", "true", "yes")
+DEBUG = config("DJANGO_DEBUG", default=False, cast=bool)
 
 # Comma-separated list of allowed hosts, e.g. DJANGO_ALLOWED_HOSTS="mathedu.pythonanywhere.com"
-ALLOWED_HOSTS = os.environ.get(
-    "DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1,mathedu.pythonanywhere.com"
-).split(",")
+ALLOWED_HOSTS = config(
+    "DJANGO_ALLOWED_HOSTS",
+    default="localhost,127.0.0.1,mathedu.pythonanywhere.com",
+    cast=Csv(),
+)
 
 
 # Application definition
@@ -116,6 +124,6 @@ LOGGING = {
     },
     'root': {
         'handlers': ['console'],
-        'level': os.environ.get('DJANGO_LOG_LEVEL', 'INFO'),
+        'level': config('DJANGO_LOG_LEVEL', default='INFO'),
     },
 }
