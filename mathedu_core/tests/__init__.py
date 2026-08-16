@@ -1,0 +1,1 @@
+"""Tests for MathEdu core. Run with ``python -m unittest discover mathedu_core`` or pytest."""

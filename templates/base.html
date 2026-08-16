@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static 'uni/images/mathedu-logo.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'uni/css/style.css' %}">
+    <title>{% block title %}MathEdu{% endblock %}</title>
+</head>
+<body>
+<main class="main">
+    <header style="position: sticky; top: 0px; width: 100%">
+        <a href="{% url 'index' %}" style="color:#FC6D6D; text-align: left;"><h2 style="margin-left: 1em;">MathEdu <span style="color: white;">&plusmn;</span></h2></a>
+    </header>
+
+    {% block content %}{% endblock content %}
+</main>
+</body>
+</html>
